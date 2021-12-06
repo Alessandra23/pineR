@@ -325,7 +325,6 @@ getStumpTemp <- function(data, params, count, depth, counter1){
 #'
 #' @return First Generation information
 #' @export
-
 getFirstGeneration <- function(npop, params, count, stumpTemp){
 
   t0m <- params$t0m
@@ -369,7 +368,9 @@ getFirstGeneration <- function(npop, params, count, stumpTemp){
 
 
 #'
+#' Collect statistics
 #'
+#' Collect statistics
 #' @export
 collectStatistics <- function(ntimes, npop, monthL, monthP, monthE, monthR, monthM, monthO, smt, count,
                                gemmonth, gemwinter, geewinter, geemonth ){

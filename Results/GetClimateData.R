@@ -3,7 +3,7 @@ library(raster) # package for netcdf manipulation
 library(tidyverse)
 library(magrittr)
 
-setwd("Data/Climate Data") # set working direcory
+#setwd("~Data/Climate Data") # set working direcory
 
 # ---- read in and crop E-OBS data
 eobs <- raster::brick("mean.nc") # read in netcdf file

@@ -10,8 +10,7 @@
 #' @param link The data link.
 #' @param path Location on the computer where the data will be saved.
 #' @param type Type of file. Default is .xlsx.
-#' @example
-#' downloadData("dataSummary", "https://docs.google.com/spreadsheets/d/1Xekodvbzysn-5iy82gzK_OlbkrfyN3aooBk9YsWoXq0/edit#gid=0", "Data/", gdrive = FALSE)
+#' @example downloadData("dataSummary", "https://docs.google.com/spreadsheets/d/1Xekodvbzysn-5iy82gzK_OlbkrfyN3aooBk9YsWoXq0/edit#gid=0", "Data/", gdrive = FALSE)
 #' @export
 downloadData <- function(name, link, path, type = "xlsx", gdrive = TRUE) {
   localName <- paste0(path, name,".", type)
@@ -75,8 +74,7 @@ readEmergence <- function(data, colIndex = c(4,6), percentual = TRUE) {
 #' Prepares the data in the format to be used in the function.
 #'
 #' @param data Weather data data frame
-#' @example
-#' hortlandWeather <- dataFrameData("~/Documents/Github/pineR/vignettes/lullymoreHortland.xlsx")
+#' @example  hortlandWeather <- dataFrameData("~/Documents/Github/pineR/vignettes/lullymoreHortland.xlsx")
 #' hortlandWeather <- weatherData(hortlandWeather)
 #' hortlandWeather
 #' @export

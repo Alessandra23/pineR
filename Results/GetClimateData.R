@@ -10,7 +10,6 @@ eobs <- raster::brick("mean.nc") # read in netcdf file
 
 # we only want irish data
 ROI <- extent(-11, -5.5, 51.2, 55.5)
-#ROI <- extend(-6.8,53.3)
 eobs <- crop(eobs, ROI) # takes a minute
 
 # create tibble and store lat/long

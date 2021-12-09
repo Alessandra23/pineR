@@ -1,5 +1,5 @@
 # Read climate data
-devtools::install_github("ropensci/rnaturalearthhires")
+#devtools::install_github("ropensci/rnaturalearthhires")
 library("rnaturalearth")
 library(tidyverse)
 library(dplyr)

@@ -1,18 +1,18 @@
+
+#' PineR
+#' @description A function to predict the life cycle of the Hylobius Abietis (Pine weevil).
+#'
+#' @param npop Population size.
+#' @param ntimes Number of weather generator runs.
+#' @param ngen Number of generations.
+#' @param data Data containing the minimum, maximum and average temperatures, as well as day, month and year.
+#' @param species Species of the three.
+#' @param depth Stump depth (1 = 10cm, 2 = 20cm, 3 = 30cm)
+#' @param owp Percentage that require overwintering
+#' @param seed Seed for random number generator
+#'
+#' @return A list of objects.
 #' @export
-#'
-#' @description
-#'
-#' @param npop
-#' @param ntimes
-#' @param ngen
-#' @param data
-#' @param species
-#' @param depth
-#' @param owp
-#' @param seed
-#'
-#' @return
-#'
 piner <- function(npop = 100,
                   ntimes = 1,
                   ngen = 5,
@@ -20,6 +20,7 @@ piner <- function(npop = 100,
                   species = "pine",
                   depth = 2,
                   owp = 100,
+                  params = TRUE,
                   seed = 2021){
 
   if (seed > 1) {
@@ -30,14 +31,18 @@ piner <- function(npop = 100,
     stop("Overwintering percentage ('owp') should be bounded between 0 and 100")
   }
 
+  if(params){
+    params <- setParameters(species = species)
+  }else{
+    params <- params
+  }
 
-  params <- set_parameters(npop = npop, species = species)
-  count <- set_counters(npop = npop, ntimes = ntimes)
+  count <- setCounters(npop = npop, ntimes = ntimes)
 
   # Read data
 
   temp <- data$temp
-  maxtemp <- data$maxtemp
+  maxtemp <- data$max_temp # NOTE HERE
   day <- data$day
   month <- data$month
   year <- data$year
@@ -60,9 +65,16 @@ piner <- function(npop = 100,
   monthM <- count$monthM
   monthO <- count$monthO
 
+  firstdisp <- 0
+  lastdisp <- 0
+  firstemrg <- 0
+  firstow <- 0
+  noow <- 0
+
   for (i in 1:ntimes) {
 
-    stump_temp <- get_stump_temp(data = data, params = params, depth = depth, count = count, counter1 = i)
+   # stump_temp <- getStumpTemp(data = data, params = params, depth = depth, count = count, counter1 = i)
+    stump_temp <-  getStumpTemp(depth = depth, nd = nd, temp = temp, th6 = params$th6)
 
     count$firstdisp <- stump_temp$firstdisp
     count$lastdisp <- stump_temp$lastdisp
@@ -70,7 +82,7 @@ piner <- function(npop = 100,
     count$firstow <- stump_temp$firstow
     count$noow <- stump_temp$noow
 
-    first_generation <- get_first_generation(npop = npop, params = params, count = count, stump_temp = stump_temp)
+    first_generation <- getFirstGeneration(npop = npop, params = params, count = count, stumpTemp = stump_temp)
 
     for (j in 2:ngen) {
       t0 <- params$t0
@@ -95,7 +107,7 @@ piner <- function(npop = 100,
         ## Store egg development time
         k <- (i-1) * npop + l
 
-        module1 <- run_module1(npop = npop, data = data, params = params, count = count,
+        module1 <- module1(npop = npop, data = data, params = params, count = count,
                                stump_temp = stump_temp, first_generation = first_generation,
                                k = k, counter3 = l)
         start <- module1$start
@@ -155,7 +167,6 @@ piner <- function(npop = 100,
         monthL[k] <- monthL[k] + 1
         k <- month[prep[l]]
         monthP[k] <- monthP[k] + 1
-        k <- month[emerge[l]]
         monthE[k] <- monthE[k] + 1
         k <- month[mature[l]]
         monthM[k] <- monthM[k] + 1

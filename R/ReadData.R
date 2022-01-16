@@ -1,6 +1,6 @@
-## Dowload data
-#'
-#' Download data from google drive or other site.
+##
+#' @title Dowload data
+#' @description Download data from google drive or other site.
 #'
 #' @import googledrive
 #' @import RCurl
@@ -10,7 +10,6 @@
 #' @param link The data link.
 #' @param path Location on the computer where the data will be saved.
 #' @param type Type of file. Default is .xlsx.
-#' @example downloadData("dataSummary", "https://docs.google.com/spreadsheets/d/1Xekodvbzysn-5iy82gzK_OlbkrfyN3aooBk9YsWoXq0/edit#gid=0", "Data/", gdrive = FALSE)
 #' @export
 downloadData <- function(name, link, path, type = "xlsx", gdrive = TRUE) {
   localName <- paste0(path, name,".", type)
@@ -26,30 +25,27 @@ downloadData <- function(name, link, path, type = "xlsx", gdrive = TRUE) {
 }
 
 #'
-#' Convert to data frame
+#' @title Convert to data frame
 #'
-#' Convert a excel file (or other extension) in a data frame.
+#' @description Convert a excel file (or other extension) in a data frame.
 #'
 #' @param path File location.
 #' @return A data frame object.
-#' @example dataFrameData("Data/dataSummary.xlsx")
 #' @export
 dataFrameData <- function(path){
-  readFile <- read_excel(path)
+  readFile <- read_excel(path, range = cell_cols("A:D"))
   dataDf <- as.data.frame(readFile)
   return(dataDf)
 }
 
-#'@import readxl
 #'
 #' Read Emergence
-#' Create a data frame with two columns: day of emergence and cumulative percentage
-#'
+#' @description  Create a data frame with two columns: day of emergence and cumulative percentage
+#' @import readxl
 #'@param data Data frame of emergence
 #'@param colIndex Columns of the days and the cumulative percentage
 #'@param percentual If it is percentual or not
 #'
-#'@example readEmergence(dataFrameData("Data/Sites/summerhill_emergence.xlsx"))
 #'@export
 readEmergence <- function(data, colIndex = c(4,6), percentual = TRUE) {
   if(percentual){
@@ -67,16 +63,13 @@ readEmergence <- function(data, colIndex = c(4,6), percentual = TRUE) {
 }
 
 
+
+#'
+#' @title Organize weather data
+#'
+#' @description Prepares the data in the format to be used in the function.
 #' @import tidyverse
-#'
-#' Organize weather data
-#'
-#' Prepares the data in the format to be used in the function.
-#'
 #' @param data Weather data data frame
-#' @example  hortlandWeather <- dataFrameData("~/Documents/Github/pineR/vignettes/lullymoreHortland.xlsx")
-#' hortlandWeather <- weatherData(hortlandWeather)
-#' hortlandWeather
 #' @export
 weatherData <- function(data){
   weatherTemp <- data %>%
@@ -104,9 +97,9 @@ weatherData <- function(data){
 
 
 #'
-#' Weight the data
+#' @title  Weight the data
 #'
-#' Inputting weighted averages
+#' @description  Inputting weighted averages
 #'
 #' @param data list of data frames
 #' @param  distances  vector of distances associated with each element of the data frame list.

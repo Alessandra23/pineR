@@ -1,17 +1,11 @@
-#'
 #' Setting parameters
 #'
-#' Function to setting up the population parameters
+#' @description   Function to setting up the population parameters
 #'
 #' @param species Tree species: pine or spruce
 #' @return A list of hyperparameters
 #' @export
-
 setParameters <- function(species) {
-
-  ######################################
-  ## setting up population parameters ##
-  ######################################
 
   ## stage 0: initial oviposition
   t0m <- 171 # mean
@@ -113,13 +107,14 @@ setParameters <- function(species) {
 }
 
 
-#' Setting up the counters
+#' Counters
+#'
+#' @description  Setting up the counters
 #'
 #' @param npop population size
 #' @param ntimes number of times, simulations
 #' @return Empty vectors
 #' @export
-
 setCounters <- function(npop, ntimes) {
   laval <- numeric(npop) # larval
   lavalst <- numeric(npop) # larval at root stump
@@ -196,64 +191,72 @@ setCounters <- function(npop, ntimes) {
   ))
 }
 
+
+#' getStumpTemp
+#' @description  Get the stump temperatures
+#' @param depth depth
+#' @param nd length of temperature
+#' @param temp mean temperature
+#' @param th6 param module 6
+#' @export
+getStumpTemp <- function(depth, nd, temp, th6){
+
+st10 <- numeric(nd)
+st30 <- numeric(nd)
+cold <- numeric(nd)
+st10[1] <- st30[1] <- 5
+
+for (l in 1:nd) {
+  st10[l] <- 0.77 * st10[l] + 0.23 * max(temp[l], 0)
+  st30[l] <- 0.91 * st30[l] + 0.09 * max(temp[l], 0)
+  cold[l] <- 0 - 1 * ((st10[l] < th6) && (temp[l] < th6)) + 1 * ((st10[l] > th6) && (temp[l] > th6))
+}
+
+
+if (depth == 1) {
+  st <- st10
+} else if (depth == 3) {
+  st <- st30
+} else {
+  st <- (st10 + st30) / 2
+}
+
+return(list(st = st,
+            st10 = st10,
+            st30 = st30,
+            cold = cold))
+
+}
+
+
 #'
-#' @param data data frame
-#' @param params values of the parameters
-#' @param count empty vectors
+#' Stump stats
+#' @description jvsjvjsj
+#' @param nd data frame
+#' @param temp values of the parameters
+#' @param maxtemp jcnrjcr
+#' @param day jcrnjr
+#' @param year jjrv
+#' @param firstdisp jnvjv
+#' @param lastdisp cnencrej
+#' @param firstemrg ncvenke
+#' @param firstow vnevne
+#' @param noow ncrenvje
+#' @param cold vnrvnje
+#' @param params vjnvjr
+#' @param counter1 jnvjrjnv
 #'
 #' @return Stump temperature information
 #'
 #' @export
 
-getStumpTemp <- function(data, params, count, depth, counter1){
 
-  temp <- data$temp
-  maxtemp <- data$max_temp
-  day <- data$day
-  month <- data$month
-  year <- data$year
-  nd <- length(temp)
-  nwarn <- 0.9 * nd
-  smt <- mean(temp) # site mean temperature
+getStumpStats <- function(nd, temp, maxtemp, day, year,  firstdisp, lastdisp, firstemrg,
+                          firstow, noow, cold, params, counter1){
 
-  th6 <- params$th6
-  th8 <- params$th8
-  t6Edays <- params$t6Edays
-  t6Odays <- params$t6Odays
-
-  fdisp <- count$firstdisp
-  ldisp <- count$lastdisp
-  femrg <- count$firstemrg
-  fow <- count$firstow
-  nw <- count$noow
-
-  st10 <- numeric(nd)
-  st30 <- numeric(nd)
-  cold <- numeric(nd)
-  st10[1] <- st30[1] <- 5
-
-  # for (l in 2:length(st10)) {
-  #   st10[l] <- 0.77 * st10[l - 1] + 0.23 * max(temp[l], 0)
-  #   st30[l] <- 0.91 * st30[l - 1] + 0.09 * max(temp[l], 0)
-  #   cold[l] <- 0 - 1 * ((st10[l] < th6) && (temp[l] < th6)) + 1 * ((st10[l] > th6) && (temp[l] > th6))
-  # }
-
-
-  for (l in 1:nd) {
-    st10[l] <- 0.77 * st10[l] + 0.23 * max(temp[l], 0)
-    st30[l] <- 0.91 * st30[l] + 0.09 * max(temp[l], 0)
-    cold[l] <- 0 - 1 * ((st10[l] < th6) && (temp[l] < th6)) + 1 * ((st10[l] > th6) && (temp[l] > th6))
-  }
-
-
-  if (depth == 1) {
-    st <- st10
-  } else if (depth == 3) {
-    st <- st30
-  } else {
-    st <- (st10 + st30) / 2
-  }
-
+  th8 <-  params$th8
+  t6Odays <-  params$t6Odays
+  t6Edays <-  params$t6Edays
 
   cumcold <- numeric(nd)
   ccd <- 0 # cumulative cold days
@@ -274,30 +277,18 @@ getStumpTemp <- function(data, params, count, depth, counter1){
     }
   }
 
-  lastdisp <- ((counter1 - 1) * ldisp + mean(as.numeric(tapply(day[maxtemp >= th8], year[maxtemp >= th8], max)))) / counter1
-  firstdisp <- ((counter1 - 1) * fdisp + mean(as.numeric(tapply(day[maxtemp >= th8], year[maxtemp >= th8], min)))) / counter1
-  firstemrg <- ((counter1 - 1) * femrg + mean(as.numeric(tapply(day[cumcold >= t6Edays], year[cumcold >= t6Edays], min))))/ counter1
+  lastdisp <- ((counter1 - 1) * lastdisp + mean(as.numeric(tapply(day[maxtemp >= th8], year[maxtemp >= th8], max)))) / counter1
+  firstdisp <- ((counter1 - 1) * firstdisp + mean(as.numeric(tapply(day[maxtemp >= th8], year[maxtemp >= th8], min)))) / counter1
+  firstemrg <- ((counter1 - 1) * firstemrg + mean(as.numeric(tapply(day[cumcold >= t6Edays], year[cumcold >= t6Edays], min))))/ counter1
 
   Jyear <- year[1:(nd - 366)]
   Jday <- day[1:(nd - 366)]
   Jcumcold <- cumcold[173:(nd - 194)]
   tmpdate <- as.numeric(tapply(Jday[Jcumcold <= (-t6Odays)], Jyear[Jcumcold <= (-t6Odays)], min))
-  noow <- nw + (29 - length(tmpdate))
-  firstow <- ((counter1 - 1) * fow + mean(tmpdate)) / counter1
+  noow <- noow + (29 - length(tmpdate))
+  firstow <- ((counter1 - 1) * firstow + mean(tmpdate)) / counter1
 
   return(list(
-    temp = temp,
-    maxtemp = maxtemp,
-    day = day,
-    month = month,
-    year = year,
-    nd = nd,
-    nwarn = nwarn,
-    smt = smt,
-    st10 = st10,
-    st30 = st30,
-    cold = cold,
-    st = st,
     cumcold = cumcold,
     ccd = ccd,
     cwd = cwd,
@@ -314,15 +305,13 @@ getStumpTemp <- function(data, params, count, depth, counter1){
 
 }
 
-
 #' First Geeneration
 #'
-#' Get first generation information.
+#' @description  Get first generation information.
 #'
 #' @param npop population size
 #' @param params values of parameters
 #' @param stumpTemp stump temperature information
-#'
 #' @return First Generation information
 #' @export
 getFirstGeneration <- function(npop, params, count, stumpTemp){
@@ -366,11 +355,23 @@ getFirstGeneration <- function(npop, params, count, stumpTemp){
 
 }
 
-
-#'
 #' Collect statistics
 #'
-#' Collect statistics
+#' @description  Collect statistics
+#' @param ntimes ntimes
+#' @param npop npop
+#' @param monthL monthL
+#' @param monthP monthP
+#' @param monthE monthE
+#' @param monthR monthR
+#' @param monthM monthM
+#' @param monthO monthO
+#' @param smt smt
+#' @param count count
+#' @param gemmonth gemmonth
+#' @param gemwinter gemwinter
+#' @param geewinter geewinter
+#' @param geemonth geemonth
 #' @export
 collectStatistics <- function(ntimes, npop, monthL, monthP, monthE, monthR, monthM, monthO, smt, count,
                                gemmonth, gemwinter, geewinter, geemonth ){

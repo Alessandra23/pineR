@@ -2,7 +2,7 @@
 % Please edit documentation in R/getValues.R
 \name{setCounters}
 \alias{setCounters}
-\title{Setting up the counters}
+\title{Counters}
 \usage{
 setCounters(npop, ntimes)
 }

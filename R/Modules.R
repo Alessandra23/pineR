@@ -1,9 +1,15 @@
-#' @export
-#'
+#' @title Module 1
+#' @param npop kmk
+#' @param data data
+#' @param params params
+#' @param count count
+#' @param stump_temp stump_temp
+#' @param first_generation first_generation
+#' @param k k
+#' @param counter3 counter3
 #' @description Larval Development
-#'
-
-runModule1 <- function(npop, data, params, count, stump_temp, first_generation, k, counter3){
+#' @export
+module1 <- function(npop, data, params, count, stump_temp, first_generation, k, counter3){
 
   year <- data$year
   st10 <- stump_temp$st10
@@ -55,17 +61,17 @@ runModule1 <- function(npop, data, params, count, stump_temp, first_generation, 
 }
 
 
+
+#' Pupal
+#' @description  Pupal Development
+#'
+#' @param params kkfke
+#' @param prep prep
+#' @param today kvrkve
+#' @param stump_temp vkvek
+#' @param counter3 mvremek
 #' @export
-#'
-#' @description Pupal Development
-#'
-#' @param params
-#' @param today
-#' @param stump_temp
-#' @param counter3
-#'
-#'
-runModule2 <- function(params, prep, today, stump_temp, counter3){
+module2 <- function(params, prep, today, stump_temp, counter3){
 
   t3ldays <- params$t3ldays
   t3udays <- params$t3udays
@@ -136,15 +142,21 @@ runModule2 <- function(params, prep, today, stump_temp, counter3){
 }
 
 
-#' @export
-#'
-#' @description Emergence
-#'
-#'
-#'
-#'
 
-runModule3 <- function(npop, data, today, count, params, stump_temp, owr, counter1, counter3){
+#'  Emergence
+#' @description  Emergence
+#'
+#' @param npop kvvkekn
+#' @param data data
+#' @param today today
+#' @param count count
+#' @param params params
+#' @param stump_temp stump_temp
+#' @param owr owr
+#' @param counter1 counter1
+#' @param counter3 counter3
+#' @export
+module3 <- function(npop, data, today, count, params, stump_temp, owr, counter1, counter3){
 
   month <- data$month
   year <- data$year
@@ -249,14 +261,16 @@ runModule3 <- function(npop, data, today, count, params, stump_temp, owr, counte
 }
 
 
+#' Maturation
+#'  @description  Maturation
+#' @param  data data
+#' @param count count
+#' @param today today
+#' @param  params params
+#' @param stumpTemp stumpTemp
+#' @param counter3 counter3
 #' @export
-#'
-#' @description Maturation
-#'
-#' @import tidyverse
-#'
-
-runModule4 <- function(data, count, today, params, stumpTemp, counter3){
+module4 <- function(data, count, today, params, stumpTemp, counter3){
 
   t7 <- params$t7
   t6Edays <- params$t6Edays
@@ -314,17 +328,16 @@ runModule4 <- function(data, count, today, params, stumpTemp, counter3){
 
 }
 
-
+#' Oviposition
+#' @description  Oviposition
+#' @param data data
+#' @param today today
+#' @param count count
+#' @param params params
+#' @param stump_temp stump_temp
+#' @param counter3 counter3
 #' @export
-#'
-#' @description Oviposition
-#'
-#'
-#'
-#'
-#'
-
-runModule5 <- function(data, today, count, params, stump_temp, counter3){
+module5 <- function(data, today, count, params, stump_temp, counter3){
 
   maxtemp <- data$maxtemp
   t1 <- params$t1

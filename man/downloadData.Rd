@@ -2,7 +2,7 @@
 % Please edit documentation in R/ReadData.R
 \name{downloadData}
 \alias{downloadData}
-\title{Download data from google drive or other site.}
+\title{Dowload data}
 \usage{
 downloadData(name, link, path, type = "xlsx", gdrive = TRUE)
 }

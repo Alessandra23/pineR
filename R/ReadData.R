@@ -107,22 +107,26 @@ weatherData <- function(data){
 #' @export
 weightedTemp <- function(data, distances) {
 
-  n <- length(distances)
-  td <- sum(distances)
-  tw <- n * td - td
-  sites_weights <- lapply(1:n, function(i) (td - distances[i]) / tw) %>% unlist()
+  if(length(distances) == 1){
+    temperatureData <- data %>% select(day, month, year, min_temp, max_temp, temp)
+  }else{
+    n <- length(distances)
+    td <- sum(distances)
+    tw <- n * td - td
+    sites_weights <- lapply(1:n, function(i) (td - distances[i]) / tw) %>% unlist()
 
-  max_temp <- lapply(1:n, function(i) data[[i]]$max_temp * sites_weights[i])
-  max_temp <- Reduce(`+`, max_temp)
+    max_temp <- lapply(1:n, function(i) data[[i]]$max_temp * sites_weights[i])
+    max_temp <- Reduce(`+`, max_temp)
 
-  min_temp <- lapply(1:n, function(i) data[[i]]$min_temp * sites_weights[i])
-  min_temp <- Reduce(`+`, min_temp)
-  weightedTemp <- data.frame(min_temp, max_temp)
-  meanTemp <- apply(weightedTemp, 1, mean)
+    min_temp <- lapply(1:n, function(i) data[[i]]$min_temp * sites_weights[i])
+    min_temp <- Reduce(`+`, min_temp)
+    weightedTemp <- data.frame(min_temp, max_temp)
+    meanTemp <- apply(weightedTemp, 1, mean)
 
-  temperatureData <- data.frame(day = data[[1]]$day, month = data[[1]]$month, year = as.numeric(data[[1]]$year),
-                                min_temp = weightedTemp$min_temp, max_temp = weightedTemp$max_temp,
-                                temp = meanTemp)
+    temperatureData <- data.frame(day = data[[1]]$day, month = data[[1]]$month, year = as.numeric(data[[1]]$year),
+                                  min_temp = weightedTemp$min_temp, max_temp = weightedTemp$max_temp,
+                                  temp = meanTemp)
+  }
 
   return(temperatureData)
 }

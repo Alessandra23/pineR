@@ -19,8 +19,6 @@ summaryData <- summaryData %>% select(c(1:9, 11) ) %>%
   filter(!(Site == "Ballybrittas" & `Weather Station` == "Durrow"))
 
 
-filter(`Weather Station` != "Durrow") %>% ungroup()
-
 
 
 

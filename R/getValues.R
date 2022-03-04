@@ -122,6 +122,7 @@ setCounters <- function(npop, ntimes) {
   emerge <- numeric(npop) # emergence (very important in relation to overwintering with cold and warm days parameters)
   mature <- numeric(npop) # maturation stage
   ovipos <- numeric(npop) # oviposition stage
+
   gstmonth <- numeric(npop * ntimes) # oviposition month for the start of the final generation after the model is run
   gstyear <- numeric(npop * ntimes) # oviposition year for the start of the final generation after the model is run
   geetime <- numeric(npop * ntimes) # number of days to start oviposition
@@ -131,9 +132,9 @@ setCounters <- function(npop, ntimes) {
   gemmonth <- numeric(npop * ntimes) # month of emergence above ground
   gemwinter <- numeric(npop * ntimes) # number of winters to emergence above ground
   rweevil <- numeric(npop * ntimes) # overwintering status of weevil
-  # 0 = no overwintering
-  # 1 = overwintering before emergence (i.e. in the pupal cell/stage)
-  # 2 = overwintering after emergence
+                                        # 0 = no overwintering
+                                        # 1 = overwintering before emergence (i.e. in the pupal cell/stage)
+                                        # 2 = overwintering after emergence
   stagegg <- numeric(npop * ntimes) # number of days in egg stage
   stagel <- numeric(npop * ntimes) # number of days in larval stage
   stagepp <- numeric(npop * ntimes) # number of days in prepupal stage
@@ -147,13 +148,6 @@ setCounters <- function(npop, ntimes) {
   monthR <- rep(0, 12) # re-emergence
   monthM <- rep(0, 12) # maturation
   monthO <- rep(0, 12) # oviposition
-
-  ## Initialize whether generator statistics
-  firstdisp <- 0
-  lastdisp <- 0
-  firstemrg <- 0
-  firstow <- 0
-  noow <- 0
 
   return(list(
     laval = laval,
@@ -182,12 +176,7 @@ setCounters <- function(npop, ntimes) {
     monthE = monthE,
     monthR = monthR,
     monthM = monthM,
-    monthO = monthO,
-    firstdisp = firstdisp,
-    lastdisp = lastdisp,
-    firstemrg = firstemrg,
-    firstow = firstow,
-    noow = noow
+    monthO = monthO
   ))
 }
 
@@ -204,6 +193,7 @@ getStumpTemp <- function(depth, nd, temp, th6){
 st10 <- numeric(nd)
 st30 <- numeric(nd)
 cold <- numeric(nd)
+
 st10[1] <- st30[1] <- 5
 
 for (l in 1:nd) {
@@ -244,7 +234,7 @@ return(list(st = st,
 #' @param noow ncrenvje
 #' @param cold vnrvnje
 #' @param params vjnvjr
-#' @param counter1 jnvjrjnv
+#' @param indexTimes jnvjrjnv
 #'
 #' @return Stump temperature information
 #'
@@ -252,7 +242,7 @@ return(list(st = st,
 
 
 getStumpStats <- function(nd, temp, maxtemp, day, year,  firstdisp, lastdisp, firstemrg,
-                          firstow, noow, cold, params, counter1){
+                          firstow, noow, cold, params, indexTimes){
 
   th8 <-  params$th8
   t6Odays <-  params$t6Odays
@@ -277,16 +267,16 @@ getStumpStats <- function(nd, temp, maxtemp, day, year,  firstdisp, lastdisp, fi
     }
   }
 
-  lastdisp <- ((counter1 - 1) * lastdisp + mean(as.numeric(tapply(day[maxtemp >= th8], year[maxtemp >= th8], max)))) / counter1
-  firstdisp <- ((counter1 - 1) * firstdisp + mean(as.numeric(tapply(day[maxtemp >= th8], year[maxtemp >= th8], min)))) / counter1
-  firstemrg <- ((counter1 - 1) * firstemrg + mean(as.numeric(tapply(day[cumcold >= t6Edays], year[cumcold >= t6Edays], min))))/ counter1
+  lastdisp <- ((indexTimes - 1) * lastdisp + mean(as.numeric(tapply(day[maxtemp >= th8], year[maxtemp >= th8], max)))) / indexTimes
+  firstdisp <- ((indexTimes - 1) * firstdisp + mean(as.numeric(tapply(day[maxtemp >= th8], year[maxtemp >= th8], min)))) / indexTimes
+  firstemrg <- ((indexTimes - 1) * firstemrg + mean(as.numeric(tapply(day[cumcold >= t6Edays], year[cumcold >= t6Edays], min))))/ indexTimes
 
   Jyear <- year[1:(nd - 366)]
   Jday <- day[1:(nd - 366)]
   Jcumcold <- cumcold[173:(nd - 194)]
   tmpdate <- as.numeric(tapply(Jday[Jcumcold <= (-t6Odays)], Jyear[Jcumcold <= (-t6Odays)], min))
   noow <- noow + (29 - length(tmpdate))
-  firstow <- ((counter1 - 1) * firstow + mean(tmpdate)) / counter1
+  firstow <- ((indexTimes - 1) * firstow + mean(tmpdate)) / indexTimes
 
   return(list(
     cumcold = cumcold,

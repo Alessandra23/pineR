@@ -8,7 +8,7 @@ library(magrittr)
 #setwd("~Data/Climate Data") # set working direcory
 
 # ---- read in and crop E-OBS data
-eobs <- raster::brick("~/Desktop/pineRold2/Data/Climate Data/meanLarge.nc") # read in netcdf file
+eobs <- raster::brick("~/Desktop/pineRold2/Data/Climate Data/mean.nc") # read in netcdf file
 
 # we only want irish data
 ROI <- extent(-11, -5.5, 51.2, 55.5)
@@ -29,8 +29,8 @@ eobs_data$Lat <- my_data$Lat
 
 # removing mysterious "X" from all dates
 names(eobs_data) <- names(eobs_data) %>% str_remove_all("X")
-eobs_data %<>% drop_na() # remove nans
-
+# eobs_data %<>% drop_na() # remove nans
+eobs_data%>% filter(!is.na())
 
 txx <- eobs_data %>%
   tidyr::pivot_longer(c(-Long, -Lat), names_to = "date", values_to = "temp") %>% # Making each row an observation
@@ -41,7 +41,7 @@ txx <- eobs_data %>%
   ungroup()
 
 txx %>%
-  write_csv("~/Desktop/pineRold2/Data/Climate Data/meanLarge.csv") # save data
+  write_csv("~/Desktop/pineRold2/Data/Climate Data/mean.csv") # save data
 
 
 
@@ -54,7 +54,7 @@ library(readr)
 library(sf)
 library(colorspace)
 
-tx = read_csv("~/Desktop/pineRold2/Data/Climate Data/meanLarge.csv")
+tx = read_csv("~/Desktop/pineRold2/Data/Climate Data/mean.csv")
 tx
 
 # sf of Ireland, used for plots of ... Ireland
@@ -97,7 +97,7 @@ lat_long <- df %>%
   st_coordinates() %>%
   as_tibble() %>%
   bind_cols(sites = df$sites) %>%
-  rename(c(Latitude = X, Longitude = Y))
+  rename(c(Longitude = X, Latitude = Y))
 
 lat_long
 lat_long <- lat_long %>% dplyr::filter(sites %in% c("Hortland", "Ballinagee","Oakwood", "Glendine", "Lackenrea 1", "Lackenrea 2", "Summerhill","Deerpark",

@@ -29,6 +29,8 @@ getWeatherStation <- function(site){
 
 # weighted data
 
+# Save weighted data as Rda
+
 # Hortland ----------------------------------------------------------------
 
 auxHortland <- getWeatherStation("Hortland")
@@ -38,7 +40,7 @@ auxHortland <- list(ballinlaHouseHortland = auxHortland$ballinlaHouseHortland,
 getDistance(summaryData, "Hortland", auxHortland)
 
 hortlandData <- weightedTemp(auxHortland, getDistance(summaryData, "Hortland", auxHortland))
-save(hortlandData,file="Data/Weighted Data/hortlandData.Rda")
+save(hortlandData,file="Data/Weighted Data/HortlandData.Rda")
 
 # Ballinagee --------------------------------------------------------------
 
@@ -81,7 +83,7 @@ save(Lackenrea2Data,file="Data/Weighted Data/Lackenrea2Data.Rda")
 
 # Summerhill --------------------------------------------------------------
 
-SummerhillData <- weightedTemp(getWeatherStation("Summerhill")$dunsanySummerhill, c(8.1))
+SummerhillData <- weightedTemp(getWeatherStation("Summerhill")$dunsanySummerhill, c(8.2))
 save(SummerhillData,file="Data/Weighted Data/SummerhillData.Rda")
 
 # Deerpark ----------------------------------------------------------------
@@ -93,7 +95,7 @@ save(DeerparkData,file="Data/Weighted Data/DeerparkData.Rda")
 
 # Ballymacshaneboy --------------------------------------------------------
 
-BallymacshaneboyData <- weightedTemp(getWeatherStation("Ballymacshaneboy")$mountRussellBallymacshaneboy,2.5)
+BallymacshaneboyData <- weightedTemp(getWeatherStation("Ballymacshaneboy")$mountRussellBallymacshaneboy,2.08)
 save(BallymacshaneboyData,file="Data/Weighted Data/BallymacshaneboyData.Rda")
 
 # Kilduff -----------------------------------------------------------------
@@ -160,7 +162,7 @@ save(DoonData,file="Data/Weighted Data/DoonData.Rda")
 
 # Clonoghil* ---------------------------------------------------------------
 
-ClonoghilData <- weightedTemp(getWeatherStation("Clonoghil")$nealstownClonoghil, 5.46)
+ClonoghilData <- weightedTemp(getWeatherStation("Clonoghil")$nealstownClonoghil, 5.58)
 save(ClonoghilData,file="Data/Weighted Data/ClonoghilData.Rda")
 
 # Tigroney* ----------------------------------------------------------------

@@ -6,7 +6,7 @@
 #' @param ntimes Number of weather generator runs.
 #' @param ngen Number of generations.
 #' @param data Data containing the minimum, maximum and average temperatures, as well as day, month and year.
-#' @param species Species of the three.
+#' @param species Species of the tree.
 #' @param depth Stump depth (1 = 10cm, 2 = 20cm, 3 = 30cm)
 #' @param owp Percentage that require overwintering
 #' @param seed Seed for random number generator

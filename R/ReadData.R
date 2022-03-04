@@ -32,8 +32,8 @@ downloadData <- function(name, link, path, type = "xlsx", gdrive = TRUE) {
 #' @param path File location.
 #' @return A data frame object.
 #' @export
-dataFrameData <- function(path){
-  readFile <- read_excel(path, range = cell_cols("A:D"))
+dataFrameData <- function(path, range = "A:D"){
+  readFile <- read_excel(path, range = cell_cols(range))
   dataDf <- as.data.frame(readFile)
   return(dataDf)
 }
@@ -129,5 +129,12 @@ weightedTemp <- function(data, distances) {
   }
 
   return(temperatureData)
+}
+
+
+#' @export
+loadRData <- function(fileName){
+  load(fileName)
+  get(ls()[ls() != "fileName"])
 }
 

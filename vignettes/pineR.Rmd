@@ -1,6 +1,6 @@
 ---
 title: "pineR"
-author: "Vignette Author"
+author: "Alessandra Lemos"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -23,6 +23,13 @@ img {
   border: 0;
   }
 </style>
+
+
+<!-- justify text -->
+<style>
+body {
+text-align: justify}
+</style>
  
 # Introduction
 
@@ -33,7 +40,7 @@ img {
 
 
 ## Introduction 
-text here!! text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!! text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!! text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!! text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!! text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!! text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text here!!text 
+The large pine weevil, *Hylobius abietis*, is a significant pest in coniferous forests across Europe, causing extensive damage to young trees and impacting the forestry industry. Understanding the life cycle of this species and the factors affecting its population dynamics is crucial for developing effective pest management strategies. This package ...
 
 
 ## Model set up

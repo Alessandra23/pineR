@@ -63,8 +63,8 @@ correctionModel <- function(data,
 
 
 
-getPredicts <- function(model, data, seed, ...){
-  UseMethod('correction_model', data, seed)
+getPredicts <- function(model, data, ...){
+  UseMethod('correction_model', data)
 }
 
 
@@ -79,7 +79,7 @@ getPredicts.ranger <- function(data, seed = 022, num.trees = 100, mtry = 2,
     training_set <- data[-i, ]
     validation_set <- data[i, ]
 
-    model <- ranger::ranger(days~.,
+    model <- ranger::ranger(y~.,
                             data = training_set,
                             num.trees = num.trees,
                             mtry = mtry,
@@ -147,7 +147,7 @@ getPredicts.nn <- function(data, seed = 022, hidden = 4, algorithm = "rprop+"){
     validation_set <- data[i, ]
 
     col_list <- paste(c(colnames(training_set[,-1])),collapse="+")
-    col_list <- paste(c("days~",col_list),collapse="")
+    col_list <- paste(c("y~",col_list),collapse="")
     f <- formula(col_list)
 
     model <- neuralnet::neuralnet(f, data = training_set,
@@ -170,7 +170,7 @@ getPredicts.svm <- function(data, seed = 022){
     training_set <- data[-i, ]
     validation_set <- data[i, ]
 
-    model <- e1071::svm(days ~ ., data = data)
+    model <- e1071::svm(y ~ ., data = data)
 
     predictions[i] <- predict(model, newdata = validation_set[, -1])
   }
@@ -214,7 +214,7 @@ getPredicts.lm <- function(data, seed = 022){
     training_set <- data[-i, ]
     validation_set <- data[i, ]
 
-    model <- lm(days ~ ., data = data)
+    model <- lm(y ~ ., data = data)
 
     predictions[i] <- mean(predict(model, newdata = validation_set[, -1]))
   }

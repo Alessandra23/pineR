@@ -64,7 +64,7 @@ correctionModel <- function(data,
 
 
 getPredicts <- function(model, data, ...){
-  UseMethod('correctionModel', data)
+  UseMethod('getPredicts', data)
 }
 
 

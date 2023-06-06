@@ -24,6 +24,8 @@
 #' @importFrom neuralnet neuralnet
 #' @importFrom neuralnet compute
 #' @importFrom e1071 svm
+#' @importFrom glmnet glmnet
+#' @importFrom glmnet cv.glmnet
 #'
 #'
 #' @export
@@ -183,7 +185,7 @@ getPredicts.lasso <- function(data, seed = 022){
   y <- data[,1]
   x <- data.matrix(data[,-1])
 
-  cv <- cv.glmnet(x, y, alpha = 1)
+  cv <- glmnet::cv.glmnet(x, y, alpha = 1)
   lambda <- cv$lambda.min
 
   set.seed(seed)

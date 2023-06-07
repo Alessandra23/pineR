@@ -2,6 +2,7 @@
 
 export(collectStatistics)
 export(correctionModel)
+export(diffOP)
 export(getFirstGeneration)
 export(getStumpStats)
 export(getStumpTemp)

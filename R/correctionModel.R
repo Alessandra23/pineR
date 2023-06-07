@@ -58,14 +58,14 @@ correctionModel <- function(data,
            class(data) <- c('data.frame', 'lm')
          })
 
-  p <-  getPredicts(data = data)
+  p <-  getPredicts(data = data, seed = seed)
 
   return(p)
 }
 
 
 
-getPredicts <- function(model, data, ...){
+getPredicts <- function(data, seed = 023, ...){
   UseMethod('getPredicts', data)
 }
 

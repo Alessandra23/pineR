@@ -71,8 +71,8 @@ getPredicts <- function(data, seed, ...){
 
 
 # Ranger
-getPredicts.ranger <- function(data, seed = 022, num.trees = 100, mtry = 2,
-                               importance = 'permutation'){
+getPredicts.ranger <- function(data, seed, num.trees, mtry,
+                               importance){
 
   set.seed(seed)
   predictions <- numeric(nrow(data))
@@ -93,7 +93,7 @@ getPredicts.ranger <- function(data, seed = 022, num.trees = 100, mtry = 2,
 
 
 # BART
-getPredicts.bart <- function(data, seed = 022, ntree = 100){
+getPredicts.bart <- function(data, seed, ntree){
 
   set.seed(seed)
   predictions <- numeric(nrow(data))
@@ -139,7 +139,7 @@ getPredicts.xgboost <- function(data, seed, max.depth, nrounds){
 }
 
 # Neural Networks
-getPredicts.nn <- function(data, seed = 022, hidden = 4, algorithm = "rprop+"){
+getPredicts.nn <- function(data, seed, hidden, algorithm){
 
   predictions <- numeric(nrow(data))
   for (i in 1:nrow(data)) {
@@ -163,7 +163,7 @@ getPredicts.nn <- function(data, seed = 022, hidden = 4, algorithm = "rprop+"){
 
 
 # Support vector machine
-getPredicts.svm <- function(data, seed = 022){
+getPredicts.svm <- function(data, seed){
 
   set.seed(seed)
   predictions <- numeric(nrow(data))
@@ -180,7 +180,7 @@ getPredicts.svm <- function(data, seed = 022){
 }
 
 # Lasso regression
-getPredicts.lasso <- function(data, seed = 022){
+getPredicts.lasso <- function(data, seed){
 
   y <- data[,1]
   x <- data.matrix(data[,-1])
@@ -207,7 +207,7 @@ getPredicts.lasso <- function(data, seed = 022){
 }
 
 # Linear regression
-getPredicts.lm <- function(data, seed = 022){
+getPredicts.lm <- function(data, seed){
 
   set.seed(seed)
   predictions <- numeric(nrow(data))

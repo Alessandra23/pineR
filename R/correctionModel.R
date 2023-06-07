@@ -58,7 +58,7 @@ correctionModel <- function(data,
            class(data) <- c('data.frame', 'lm')
          })
 
-  p <-  getPredicts(data = data, seed = seed)
+  p <-  getPredicts(data = data, seed = seed, ...)
 
   return(p)
 }

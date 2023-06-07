@@ -156,7 +156,7 @@ getPredicts.nn <- function(data, seed = 022, hidden = 4, algorithm = "rprop+"){
                                   hidden = hidden,
                                   algorithm = algorithm)
 
-    predictions[i] <- neuralnet::compute(model, validation_set[-1], rep = 1)$net.result[1,1]
+    predictions[i] <- neuralnet::compute(model, validation_set[,-1])$net.result[1,1]
   }
   return(predictions)
 }

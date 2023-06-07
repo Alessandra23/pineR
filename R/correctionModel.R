@@ -65,7 +65,7 @@ correctionModel <- function(data,
 
 
 
-getPredicts <- function(data, seed = 023, ...){
+getPredicts <- function(data, seed, ...){
   UseMethod('getPredicts', data)
 }
 
@@ -113,7 +113,7 @@ getPredicts.bart <- function(data, seed = 022, ntree = 100){
 }
 
 # xgboost
-getPredicts.xgboost <- function(data, seed = 022, max.depth = 2, nrounds = 50){
+getPredicts.xgboost <- function(data, seed, max.depth, nrounds){
 
   set.seed(seed)
   predictions <- numeric(nrow(data))
@@ -141,7 +141,6 @@ getPredicts.xgboost <- function(data, seed = 022, max.depth = 2, nrounds = 50){
 # Neural Networks
 getPredicts.nn <- function(data, seed = 022, hidden = 4, algorithm = "rprop+"){
 
-  set.seed(seed)
   predictions <- numeric(nrow(data))
   for (i in 1:nrow(data)) {
 
@@ -152,6 +151,7 @@ getPredicts.nn <- function(data, seed = 022, hidden = 4, algorithm = "rprop+"){
     col_list <- paste(c("y~",col_list),collapse="")
     f <- formula(col_list)
 
+    set.seed(seed)
     model <- neuralnet::neuralnet(f, data = training_set,
                                   hidden = hidden,
                                   algorithm = algorithm)

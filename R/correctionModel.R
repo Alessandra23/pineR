@@ -31,7 +31,7 @@
 #' @export
 correctionModel <- function(data,
                             model = c('ranger', 'bart', 'xgboost', 'nn', 'svm', 'lasso', 'lm'),
-                            seed, ...){
+                            seed = NULL, ...){
 
   modelArg <- match.arg(model)
 
@@ -141,6 +141,7 @@ getPredicts.xgboost <- function(data, seed, max.depth, nrounds){
 # Neural Networks
 getPredicts.nn <- function(data, seed, hidden, algorithm){
 
+  set.seed(seed)
   predictions <- numeric(nrow(data))
   for (i in 1:nrow(data)) {
 
@@ -151,7 +152,6 @@ getPredicts.nn <- function(data, seed, hidden, algorithm){
     col_list <- paste(c("y~",col_list),collapse="")
     f <- formula(col_list)
 
-    set.seed(seed)
     model <- neuralnet::neuralnet(f, data = training_set,
                                   hidden = hidden,
                                   algorithm = algorithm)
@@ -182,13 +182,13 @@ getPredicts.svm <- function(data, seed){
 # Lasso regression
 getPredicts.lasso <- function(data, seed){
 
+  set.seed(seed)
   y <- data[,1]
   x <- data.matrix(data[,-1])
 
   cv <- glmnet::cv.glmnet(x, y, alpha = 1)
   lambda <- cv$lambda.min
 
-  set.seed(seed)
   predictions <- numeric(nrow(data))
   for (i in 1:nrow(data)) {
 

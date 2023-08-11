@@ -40,4 +40,6 @@ plotEmergence <- function(quantiles, emergence, pal = c('steelblue', 'firebrick'
   suppressWarnings(
     print(ecdf_var)
   )
+
+  return(ecdf_var)
 }

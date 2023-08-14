@@ -4,8 +4,8 @@
 #'
 #' This function calculates stump temperatures at specified depths and returns a list of attributes.
 #'
-#' @param depth A single numeric value indicating the depth (in cm) at which to calculate stump temperatures.
-#' Only 1 cm and 3 cm are accepted.
+#' @param depth A single numeric value indicating the depth at which to calculate stump temperatures.
+#' Only 1 and 3  are accepted.
 #' @param nd A single numeric value representing the number of days for which the calculation will be performed.
 #' @param temp A numeric vector of length 'nd' containing daily temperature values in degrees Celsius.
 #' @param th6 A single numeric value representing the threshold temperature (in degrees Celsius)
@@ -13,8 +13,8 @@
 #'
 #' @return A list with the following components:
 #' \itemize{
-#' \item \code{s10}: A numeric vector of length 'nd' representing daily 10-day moving averages of temperature at 1 cm depth.
-#' \item \code{s30}: A numeric vector of length 'nd' representing daily 30-day moving averages of temperature at 3 cm depth.
+#' \item \code{s10}: A numeric vector of length 'nd' representing daily 10-day moving averages of temperature at 10 cm depth.
+#' \item \code{s30}: A numeric vector of length 'nd' representing daily 30-day moving averages of temperature at 30 cm depth.
 #' \item \code{cold}: A numeric vector of length 'nd' containing values of -1, 0, or 1, indicating whether the stump is cold
 #' or not based on the 10-day moving average and threshold temperature.
 #' \item \code{cumcold}: A numeric vector of length 'nd' containing cumulative cold values.
